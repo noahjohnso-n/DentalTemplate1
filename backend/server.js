@@ -114,7 +114,7 @@ app.post("/booking-emergency", async (req, res) => {
     }
 });
 
-const port = 3002;
+const port = process.env.PORT || 3002;
 dotenv.config();
 app.use(express.json());
 
