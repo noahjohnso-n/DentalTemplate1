@@ -4,8 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-  "start": "node server.js",
-  "build": "cd frontend && npm install && npm run build"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build && node server.js", 
+    "build": "cd ../frontend && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
