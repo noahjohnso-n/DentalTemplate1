@@ -4,54 +4,10 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { MongoClient } from "mongodb";
-import stripe from "./stripe.js";
 
 const app = express();
 const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri);
-
-// app.post("/create-checkout-session", async (req, res) => {
-//     try {
-//         const session = await stripe.checkout.sessions.create({
-//             payment_method_types: ["card"],
-//             line_items: [
-//                 {
-//                     price_data: {
-//                         currency: "usd",
-//                         product_data: { name: "Dental Service" },
-//                         unit_amount: 10000, // Amount in cents ($100.00)
-//                     },
-//                     quantity: 1,
-//                 },
-//             ],
-//             mode: "payment",
-//             success_url: "https://yourwebsite.com/success",
-//             cancel_url: "https://yourwebsite.com/cancel",
-//         });
-
-//         res.json({ id: session.id });
-//     } catch (error) {
-//         console.error("Stripe error:", error);
-//         res.status(500).json({ error: "Payment failed" });
-//     }
-// });
-
-app.post("/create-payment-intent", async (req, res) => {
-    try {
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount: 10000, // Amount in cents ($100.00)
-            currency: "usd",
-            payment_method_types: ["card"],
-        });
-
-        res.json({ clientSecret: paymentIntent.client_secret });
-    } catch (error) {
-        console.error("Stripe error:", error);
-        res.status(500).json({ error: "Payment failed" });
-    }
-});
-
-
 
 app.post("/booking-exams", async (req, res) => {
     try {
