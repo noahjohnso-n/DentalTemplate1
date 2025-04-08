@@ -9,3 +9,9 @@
   "start": "node server.js",
   "build": "cd frontend && npm install && npm run build"
   },
+
+  "scripts": {
+  "start": "npm run build && node server.js",
+  "build": "cd frontend && npm install && npm run build",
+  "deploy": "npm run build && npm start"
+}
