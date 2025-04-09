@@ -80,6 +80,8 @@ export default function Booking() {
         tempDate.setDate(tempDate.getDate() + 1);
     }
 
+    console.log("Fetched bookings:", data);
+
     return (
         <>
             <WhiteLanding />
