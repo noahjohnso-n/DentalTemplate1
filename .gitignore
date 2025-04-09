@@ -1,6 +1,6 @@
 # Node.js and React specific
 node_modules/
-build/
+# build/
 public/build/
 .env
 .env.*
