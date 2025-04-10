@@ -123,7 +123,9 @@ export default function Booking() {
                                         {bookingsForDay.length > 0 ? (
                                             bookingsForDay.map((booking) => (
                                                 <div className="appointment-box" key={booking._id}>
-                                                    <Link to = "/checkout" state = {{ details: booking }}><li className="appointment">{booking.time}</li></Link>
+                                                    <Link to="/checkout" state={{ details: booking }}>
+                                                        <li className="appointment">{booking.time}</li>
+                                                    </Link>
                                                 </div>
                                             ))
                                         ) : (

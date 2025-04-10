@@ -6,7 +6,7 @@ export default function Booking() {
     const [bookings, setBookings] = useState([]);
     const [weeks, setWeeks] = useState([]);
     const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
-    
+
     useEffect(() => {
         const fetchBookings = async () => {
             try {
@@ -68,16 +68,23 @@ export default function Booking() {
 
     const currentWeek = weeks[currentWeekIndex];
 
+    // Helper function to format dates to YYYY-MM-DD (ignore time)
+    const formatDateOnly = (date) => {
+        return new Date(date).toISOString().split("T")[0]; // "2025-04-12"
+    };
+
     const filteredBookings = bookings.filter((booking) => {
         const bookingDate = new Date(booking.date);
-        return bookingDate >= currentWeek.start && bookingDate <= currentWeek.end;
+        return (
+            bookingDate >= currentWeek.start && bookingDate <= currentWeek.end
+        );  // Correct comparison
     });
 
     const currentDays = [];
     let tempDate = new Date(currentWeek.start);
     while (tempDate <= currentWeek.end) {
-        currentDays.push(new Date(tempDate)); // Store full date instead of just the day number
-        tempDate.setDate(tempDate.getDate() + 1);
+        currentDays.push(new Date(tempDate));  // Ensure you are pushing Date objects
+        tempDate.setDate(tempDate.getDate() + 1);  // Move to next day
     }
 
     return (
@@ -106,13 +113,10 @@ export default function Booking() {
                             const day = dateObj.getDate();
                             const month = dateObj.toLocaleString("en-US", { month: "long" });
 
+                            // Filter bookings for the current day using formatDateOnly to ignore time zone issues
                             const bookingsForDay = filteredBookings.filter((booking) => {
-                                const bookingDate = new Date(booking.date);
-                                return (
-                                    bookingDate.getDate() === day &&
-                                    bookingDate.getMonth() === dateObj.getMonth() &&
-                                    bookingDate.getFullYear() === dateObj.getFullYear()
-                                );
+                                const bookingDate = new Date(booking.date);  // Parsing booking date into Date object
+                                return formatDateOnly(booking.date) === formatDateOnly(dateObj);
                             });
 
                             return (
@@ -123,7 +127,9 @@ export default function Booking() {
                                         {bookingsForDay.length > 0 ? (
                                             bookingsForDay.map((booking) => (
                                                 <div className="appointment-box" key={booking._id}>
-                                                    <Link to = "/checkout" state = {{ details: booking }}><li className="appointment">{booking.time}</li></Link>
+                                                    <Link to="/checkout" state={{ details: booking }}>
+                                                        <li className="appointment">{booking.time} {day}</li>
+                                                    </Link>
                                                 </div>
                                             ))
                                         ) : (
@@ -154,3 +160,7 @@ export default function Booking() {
         </>
     );
 }
+
+
+
+
